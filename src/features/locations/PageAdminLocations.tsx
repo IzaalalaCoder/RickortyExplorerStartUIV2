@@ -6,10 +6,10 @@ import {
   AdminLayoutPage,
   AdminLayoutPageContent,
 } from '../admin/AdminLayoutPage';
-import PageAdminCharacter from './PageAdminCharacter';
+import PageAdminLocation from './PageAdminLocation';
 
-export default function PageAdminCharacters() {
-  const characters = trpc.characters.get.useInfiniteQuery(
+export default function PageAdminLocations() {
+  const locations = trpc.locations.get.useInfiniteQuery(
     {},
     {
       getNextPageParam: (lastPage) => {
@@ -21,20 +21,20 @@ export default function PageAdminCharacters() {
   return (
     <AdminLayoutPage>
       <AdminLayoutPageContent>
-        <Heading>Personnages de Rick & Morty</Heading>
+        <Heading>Lieux dans Rick & Morty</Heading>
         <Stack spacing={15}>
-          {characters.isSuccess &&
-            characters.data?.pages
+          {locations.isSuccess &&
+            locations.data?.pages
               .flatMap((pages) => pages.items)
-              .map((character) => (
-                <PageAdminCharacter key={character.id} character={character} />
+              .map((location) => (
+                <PageAdminLocation key={location.id} location={location} />
               ))}
           <Button
-            onClick={() => characters.fetchNextPage()}
+            onClick={() => locations.fetchNextPage()}
             size="lg"
             colorScheme="blackAlpha"
-            isLoading={characters.isFetchingNextPage}
-            isDisabled={!characters.hasNextPage}
+            isLoading={locations.isFetchingNextPage}
+            isDisabled={!locations.hasNextPage}
           >
             Afficher plus
           </Button>

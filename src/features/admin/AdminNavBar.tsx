@@ -43,6 +43,9 @@ import {
   LuUser,
 } from 'react-icons/lu';
 
+import { ROUTES_ADMIN_RICK_AND_MORTY_CHARACTERS } from '@/app/admin/(authenticated)/characters/routes';
+import { ROUTES_ADMIN_RICK_AND_MORTY_EPISODES } from '@/app/admin/(authenticated)/episodes/routes';
+import { ROUTES_ADMIN_RICK_AND_MORTY_LOCATIONS } from '@/app/admin/(authenticated)/locations/routes';
 import { Icon } from '@/components/Icons';
 import { Logo } from '@/components/Logo';
 import { ROUTES_ACCOUNT } from '@/features/account/routes';
@@ -71,6 +74,21 @@ const AdminNavBarMainMenu = ({ ...rest }: StackProps) => {
       </AdminNavBarMainMenuItem>
       <AdminNavBarMainMenuItem href={ROUTES_MANAGEMENT.admin.root()}>
         {t('admin:layout.mainMenu.management')}
+      </AdminNavBarMainMenuItem>
+      <AdminNavBarMainMenuItem
+        href={ROUTES_ADMIN_RICK_AND_MORTY_CHARACTERS.admin.root()}
+      >
+        Characters
+      </AdminNavBarMainMenuItem>
+      <AdminNavBarMainMenuItem
+        href={ROUTES_ADMIN_RICK_AND_MORTY_LOCATIONS.admin.root()}
+      >
+        Locations
+      </AdminNavBarMainMenuItem>
+      <AdminNavBarMainMenuItem
+        href={ROUTES_ADMIN_RICK_AND_MORTY_EPISODES.admin.root()}
+      >
+        Episodes
       </AdminNavBarMainMenuItem>
     </Stack>
   );

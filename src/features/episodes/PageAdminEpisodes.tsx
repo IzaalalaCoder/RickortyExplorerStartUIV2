@@ -6,10 +6,10 @@ import {
   AdminLayoutPage,
   AdminLayoutPageContent,
 } from '../admin/AdminLayoutPage';
-import PageAdminCharacter from './PageAdminCharacter';
+import PageAdminEpisode from './PageAdminEpisode';
 
-export default function PageAdminCharacters() {
-  const characters = trpc.characters.get.useInfiniteQuery(
+export default function PageAdminEpisodes() {
+  const episodes = trpc.episodes.get.useInfiniteQuery(
     {},
     {
       getNextPageParam: (lastPage) => {
@@ -21,20 +21,20 @@ export default function PageAdminCharacters() {
   return (
     <AdminLayoutPage>
       <AdminLayoutPageContent>
-        <Heading>Personnages de Rick & Morty</Heading>
+        <Heading>Episodes de Rick & Morty</Heading>
         <Stack spacing={15}>
-          {characters.isSuccess &&
-            characters.data?.pages
+          {episodes.isSuccess &&
+            episodes.data?.pages
               .flatMap((pages) => pages.items)
-              .map((character) => (
-                <PageAdminCharacter key={character.id} character={character} />
+              .map((episode) => (
+                <PageAdminEpisode key={episode.id} episode={episode} />
               ))}
           <Button
-            onClick={() => characters.fetchNextPage()}
+            onClick={() => episodes.fetchNextPage()}
             size="lg"
             colorScheme="blackAlpha"
-            isLoading={characters.isFetchingNextPage}
-            isDisabled={!characters.hasNextPage}
+            isLoading={episodes.isFetchingNextPage}
+            isDisabled={!episodes.hasNextPage}
           >
             Afficher plus
           </Button>

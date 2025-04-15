@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
-import { zCharacter } from '@/features/characters/charactersSchemas';
+import { zLocation } from '@/features/locations/locationsSchemas';
 import { createTRPCRouter, protectedProcedure } from '@/server/config/trpc';
 
-export const charactersRouter = createTRPCRouter({
+export const locationsRouter = createTRPCRouter({
   get: protectedProcedure({ authorizations: ['ADMIN'] })
     .meta({
       method: 'GET',
-      path: '/characters',
+      path: '/locations',
       protect: true,
       tags: ['rickandmorty'],
     })
@@ -20,18 +20,18 @@ export const charactersRouter = createTRPCRouter({
     )
     .output(
       z.object({
-        items: z.array(zCharacter()),
+        items: z.array(zLocation()),
         nextCursor: z.number().optional(),
       })
     )
     .query(async ({ input }) => {
       const currentPage = input.cursor ?? 1;
       const res = await fetch(
-        `https://rickandmortyapi.com/api/character?page=${currentPage}`
+        `https://rickandmortyapi.com/api/location?page=${currentPage}`
       );
       const data = await res.json();
       if (!data.results) {
-        throw new Error('Aucun personnage trouvé');
+        throw new Error('Aucun lieu trouvé');
       }
 
       const nextPage: typeof input.cursor | undefined = data.info.next

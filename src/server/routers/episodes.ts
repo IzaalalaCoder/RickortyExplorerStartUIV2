@@ -1,14 +1,15 @@
 import { z } from 'zod';
 
-import { zCharacter } from '@/features/characters/charactersSchemas';
-import { createTRPCRouter, protectedProcedure } from '@/server/config/trpc';
+import { zEpisode } from '@/features/episodes/episodesSchemas';
 
-export const charactersRouter = createTRPCRouter({
+import { createTRPCRouter, protectedProcedure } from '../config/trpc';
+
+export const episodesRouter = createTRPCRouter({
   get: protectedProcedure({ authorizations: ['ADMIN'] })
     .meta({
-      method: 'GET',
-      path: '/characters',
+      path: '/episodes',
       protect: true,
+      method: 'GET',
       tags: ['rickandmorty'],
     })
     .input(
@@ -20,18 +21,19 @@ export const charactersRouter = createTRPCRouter({
     )
     .output(
       z.object({
-        items: z.array(zCharacter()),
+        items: z.array(zEpisode()),
         nextCursor: z.number().optional(),
       })
     )
     .query(async ({ input }) => {
       const currentPage = input.cursor ?? 1;
       const res = await fetch(
-        `https://rickandmortyapi.com/api/character?page=${currentPage}`
+        `https://rickandmortyapi.com/api/episode?page=${currentPage}`
       );
+
       const data = await res.json();
       if (!data.results) {
-        throw new Error('Aucun personnage trouvé');
+        throw new Error('Aucun épisode trouvé');
       }
 
       const nextPage: typeof input.cursor | undefined = data.info.next
