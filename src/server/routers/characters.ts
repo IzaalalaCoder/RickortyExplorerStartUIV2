@@ -9,7 +9,7 @@ export const charactersRouter = createTRPCRouter({
       method: 'GET',
       path: '/characters',
       protect: true,
-      tags: ['rickandmorty'],
+      tags: ['characters'],
     })
     .input(
       z

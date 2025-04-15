@@ -10,7 +10,7 @@ export const episodesRouter = createTRPCRouter({
       path: '/episodes',
       protect: true,
       method: 'GET',
-      tags: ['rickandmorty'],
+      tags: ['episodes'],
     })
     .input(
       z

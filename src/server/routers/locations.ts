@@ -9,7 +9,7 @@ export const locationsRouter = createTRPCRouter({
       method: 'GET',
       path: '/locations',
       protect: true,
-      tags: ['rickandmorty'],
+      tags: ['locations'],
     })
     .input(
       z
