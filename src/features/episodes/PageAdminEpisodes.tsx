@@ -1,4 +1,11 @@
-import { Button, Heading, Stack } from '@chakra-ui/react';
+import {
+  Alert,
+  AlertIcon,
+  Button,
+  Heading,
+  Spinner,
+  Stack,
+} from '@chakra-ui/react';
 
 import { trpc } from '@/lib/trpc/client';
 
@@ -23,6 +30,20 @@ export default function PageAdminEpisodes() {
       <AdminLayoutPageContent>
         <Heading>Episodes de Rick & Morty</Heading>
         <Stack spacing={15}>
+          {episodes.isLoading && <Spinner />}
+          {episodes.isError && (
+            <Alert status="error">
+              <AlertIcon />
+              Une erreur est survenue lors de la lecture des épisodes.
+            </Alert>
+          )}
+          {episodes.isSuccess &&
+            !episodes.data.pages.flatMap((page) => page.items).length && (
+              <Alert status="info">
+                <AlertIcon />
+                Absence d'épisodes.
+              </Alert>
+            )}
           {episodes.isSuccess &&
             episodes.data?.pages
               .flatMap((pages) => pages.items)

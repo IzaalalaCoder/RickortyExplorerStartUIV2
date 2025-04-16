@@ -1,4 +1,11 @@
-import { Button, Heading, Stack } from '@chakra-ui/react';
+import {
+  Alert,
+  AlertIcon,
+  Button,
+  Heading,
+  Spinner,
+  Stack,
+} from '@chakra-ui/react';
 
 import { trpc } from '@/lib/trpc/client';
 
@@ -23,6 +30,20 @@ export default function PageAdminCharacters() {
       <AdminLayoutPageContent>
         <Heading>Personnages de Rick & Morty</Heading>
         <Stack spacing={15}>
+          {characters.isLoading && <Spinner />}
+          {characters.isError && (
+            <Alert status="error">
+              <AlertIcon />
+              Une erreur est survenue lors de la lecture des personnages.
+            </Alert>
+          )}
+          {characters.isSuccess &&
+            !characters.data.pages.flatMap((page) => page.items).length && (
+              <Alert status="info">
+                <AlertIcon />
+                Absence de personnages.
+              </Alert>
+            )}
           {characters.isSuccess &&
             characters.data?.pages
               .flatMap((pages) => pages.items)
